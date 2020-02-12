@@ -55,13 +55,13 @@ def findRoot(A, y):
     [f, q] = getFuncAndQ(A, y)
     x = [0 for elem in y]
     eps = input("Epsilon: ")
-    treshhold = eps * (q-1) / q
+    threshold = eps * (q-1) / q
 
     while True:
         oldX = x
         x = f(x)
 
-        if sqrt( sum( list( map(lambda x: x*x,  substractMatrixFromMatrix(x, oldX)) ) ) ) < treshhold:
+        if sqrt( sum( list( map(lambda x: x*x,  substractMatrixFromMatrix(x, oldX)) ) ) ) < threshold:
             break;
     
     return x
