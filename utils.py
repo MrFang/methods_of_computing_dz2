@@ -8,7 +8,7 @@ def readMatrixFromFile(filename):
     
     a=[[int(elem) for elem in row]for row in a]
 
-    return a
+    return a if len(a) > 1 else a[0]
 
 def copyMatrix(matrix):
     m = list()
