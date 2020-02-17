@@ -1,7 +1,5 @@
 from math import sqrt
 
-from utils import copyMatrix
-
 def divideIntoTwoMatrices(matrix):
     C, D = [], []
 
@@ -28,7 +26,7 @@ def getInverseMatrix(matrix):
         r.append([])
         
         for j in range(len(matrix[0])):
-            
+
             if i == j:
                 r.append(1/matrix[i][i])
             else:
@@ -93,7 +91,6 @@ def findRoot(A, y):
     x = [0 for elem in y]
     eps = float(input("Epsilon: "))
     threshold = eps * (1-q) / q
-    print(threshold)
 
     while True:
         oldX = x
