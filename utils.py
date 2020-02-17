@@ -9,19 +9,4 @@ def readMatrixFromFile(filename):
     a=[[int(elem) for elem in row]for row in a]
 
     return a if len(a) > 1 else a[0]
-
-def copyMatrix(matrix):
-    m = list()
-
-    for idx, row in enumerate(matrix):
-        m.append(list())
-        for item in row:
-            m[idx].append(item)
-    
-    return m
-
-def printMatrix(matrix , st):
-    print('Matrix ',st)
-    for row in matrix:
-        print(' '.join([str(elem) for elem in row]))
     

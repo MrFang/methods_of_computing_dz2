@@ -1,5 +1,7 @@
 from math import sqrt
 
+from utils import copyMatrix
+
 def divideIntoTwoMatrices(matrix):
     C, D = [], []
 
@@ -18,50 +20,86 @@ def divideIntoTwoMatrices(matrix):
 
     return [C, D]
 
-def getInverseMatrix(matrix): 
-    raise NotImplementedError
+# Works ONLY with diagonal matrix
+def getInverseMatrix(matrix):
+    r =[]
 
-def multMatrixByMatrix(m1, m2):
-    raise NotImplementedError
-
-def substractMatrixFromMatrix(m1, m2):
-    raise NotImplementedError
-
-def computeQ(matrix):
-    sums = []
+    for i in range(len(matrix)):
+        r.append([])
+        
+        for j in range(len(matrix[0])):
+            
+            if i == j:
+                r.append(1/matrix[i][i])
+            else:
+                r.append(0)
     
-    for i, row in enumerate(matrix):
+    return r
+
+def multMatrixByVec(m, v): 
+    if len(m[0]) != len(v):
+        raise ValueError("Incorrect dimensions M has %dx%d, but V has %d" %(len(m), len(m[0]), len(v)))
+
+    r = []
+
+    for i in range(len(m)):
+        r.append(0)
+        for j in range(len(m[0])):
+            r[i] += m[i][j] * v[j]
+    
+    return r
+
+def substractVectorFromVector(v1, v2):
+    if len(v1) != len(v2):
+        raise ValueError("Incorrect dimensions V1 has %d, but V2 has %d" %(len(v1), len(v2)))
+
+    result = []
+
+    for i in range(len(v1)):
+        result.append(v1[i] - v2[i])
+    
+    return result;
+
+def computeParams(A, y):
+    B = []
+    newY = []
+    sums = []
+
+    for i in range(len(A)):
+        B.append([])
+        newY.append(y[i] / A[i][i])
         sums.append(0)
 
-        for j, elem in enumerate(row):
-            if j != i:
-                sums[i] += abs(elem / matrix[i][i])
+        for j in range(len(A[0])):
+            if i == j:
+                B[i].append(0)
+            else:
+                a = A[i][j] / A[i][i]
+                B[i].append(a)
+                sums[i] += abs(a)
 
-    return max(sums)
+    return[B, newY, max(sums)]
 
 def getFuncAndQ(A, y):
-    [C, D] = divideIntoTwoMatrices(A)
-    inverseC = getInverseMatrix(C);
-    B = multMatrixByMatrix(inverseC, D)
-    newY = multMatrixByMatrix(inverseC, y)
-    q = computeQ(B)
+    [B, newY, q] = computeParams(A, y)
 
     def F(x):
-        return substractMatrixFromMatrix(newY, multMatrixByMatrix(B, x))
+        return substractVectorFromVector(newY, multMatrixByVec(B, x))
     
     return [F, q]
 
 def findRoot(A, y):
     [f, q] = getFuncAndQ(A, y)
     x = [0 for elem in y]
-    eps = input("Epsilon: ")
-    threshold = eps * (q-1) / q
+    eps = float(input("Epsilon: "))
+    threshold = eps * (1-q) / q
+    print(threshold)
 
     while True:
         oldX = x
         x = f(x)
 
-        if sqrt( sum( list( map(lambda x: x*x,  substractMatrixFromMatrix(x, oldX)) ) ) ) < threshold:
+        if sqrt( sum( list( map(lambda x: x*x,  substractVectorFromVector(x, oldX)) ) ) ) < threshold:
             break;
     
     return x
