@@ -31,11 +31,11 @@ def computeQ(matrix):
     sums = []
     
     for i, row in enumerate(matrix):
-        list.append(0)
+        sums.append(0)
 
         for j, elem in enumerate(row):
             if j != i:
-                list[i] += elem
+                sums[i] += abs(elem / matrix[i][i])
 
     return max(sums)
 
