@@ -1,39 +1,5 @@
 from math import sqrt
 
-def divideIntoTwoMatrices(matrix):
-    C, D = [], []
-
-    for i, row in enumerate(matrix):
-        C.append([])
-        D.append([])
-        
-        for j, elem in enumerate(row):
-            
-            if i == j:
-                C[i].append(0)
-                D[i].append(elem)
-            else:
-                C[i].append(elem)
-                D[i].append(0)
-
-    return [C, D]
-
-# Works ONLY with diagonal matrix
-def getInverseMatrix(matrix):
-    r =[]
-
-    for i in range(len(matrix)):
-        r.append([])
-        
-        for j in range(len(matrix[0])):
-
-            if i == j:
-                r.append(1/matrix[i][i])
-            else:
-                r.append(0)
-    
-    return r
-
 def multMatrixByVec(m, v): 
     if len(m[0]) != len(v):
         raise ValueError("Incorrect dimensions M has %dx%d, but V has %d" %(len(m), len(m[0]), len(v)))
@@ -56,7 +22,7 @@ def substractVectorFromVector(v1, v2):
     for i in range(len(v1)):
         result.append(v1[i] - v2[i])
     
-    return result;
+    return result
 
 def computeParams(A, y):
     B = []
@@ -76,7 +42,7 @@ def computeParams(A, y):
                 B[i].append(a)
                 sums[i] += abs(a)
 
-    return[B, newY, max(sums)]
+    return [B, newY, max(sums)]
 
 def getFuncAndQ(A, y):
     [B, newY, q] = computeParams(A, y)
@@ -97,6 +63,6 @@ def findRoot(A, y):
         x = f(x)
 
         if sqrt( sum( list( map(lambda x: x*x,  substractVectorFromVector(x, oldX)) ) ) ) < threshold:
-            break;
+            break
     
     return x
